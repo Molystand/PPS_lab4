@@ -1,9 +1,9 @@
 ﻿using PPS_lab4.Entities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -20,14 +20,38 @@ namespace PPS_lab4.Windows
     /// </summary>
     public partial class TasksWindow : Window
     {
+        ObservableCollection<Task> tasks;
+
         public TasksWindow()
         {
             InitializeComponent();
         }
 
-        private void tasksDgrid_Loaded(object sender, RoutedEventArgs e)
+        private void UpdateData(object sender, RoutedEventArgs e)
         {
+            tasks = new ObservableCollection<Task>(Task.Get());
+            tasksDgrid.ItemsSource = tasks;
+            tasks.CollectionChanged += Tasks_CollectionChanged;
+        }
 
+        // Событие изменения списка данных
+        private void Tasks_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            // При удалении элемента.
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
+            {
+                (e.OldItems[0] as Task).Delete();
+            }
+            // При добавлении элемента.
+            else if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                (e.NewItems[0] as Task).Insert();
+            }
+            // При изменении элемента.
+            else if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace)
+            {
+                (e.OldItems[0] as Task).Update(e.NewItems[0] as Task);
+            }
         }
 
         private void tasksDgrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -38,6 +62,12 @@ namespace PPS_lab4.Windows
         // Добавление новой задачи
         private void addTaskBut_Click(object sender, RoutedEventArgs e)
         {
+            //tasks.Add(new Task()
+            //{
+            //    Title = "t",
+            //    Description = "d",
+
+            //});
             TaskWindow window = new TaskWindow() { Owner = this };
             window.ShowDialog();
         }

@@ -55,7 +55,7 @@
 
         <!-- Список задач -->
         <DataGrid Name="tasksDgrid" Grid.Row="1" AutoGenerateColumns="False"
-                  Loaded="tasksDgrid_Loaded" SelectionChanged="tasksDgrid_SelectionChanged"
+                  Loaded="UpdateData" SelectionChanged="tasksDgrid_SelectionChanged"
                   CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Дата" Binding="{Binding Date}"
