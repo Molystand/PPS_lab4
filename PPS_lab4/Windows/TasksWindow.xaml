@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PPS_lab4.Windows"
         mc:Ignorable="d"
-        Title="TasksWindow" Height="450" Width="800">
+        Title="TasksWindow" Height="400" Width="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -16,11 +16,14 @@
         <!-- Меню -->
         <Menu VerticalAlignment="Center" Height="20">
             
-            <MenuItem Header="Файл">
-                <MenuItem/>
-                <MenuItem/>
+            <MenuItem Header="Аккаунт">
+                <MenuItem Name="switchUserMenu" Header="Сменить пользователя"
+                          Click="switchUserMenu_Click"/>
+                <MenuItem Name="removeCurrUserMenu" Header="Удалить текущего пользователя"
+                          Click="removeCurrUserMenu_Click"/>
                 <Separator/>
-                <MenuItem Header="Выход"/>
+                <MenuItem Name="exitMenu" Header="Выйти из приложения"
+                          Click="exitMenu_Click"/>
             </MenuItem>
             
             <MenuItem Header="Фильтры">

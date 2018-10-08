@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PPS_lab4.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,5 +41,33 @@ namespace PPS_lab4.Windows
             TaskWindow window = new TaskWindow() { Owner = this };
             window.ShowDialog();
         }
+
+        #region Клики меню "аккаунт"
+
+        private void exitMenu_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void switchUserMenu_Click(object sender, RoutedEventArgs e)
+        {
+            App.CurrentUserId = 0;
+            // Закрыть окно, выйти в главное меню
+            this.Close();
+        }
+
+        private void removeCurrUserMenu_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Вы точно хотите удалить текущего пользователя?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                this.Close();
+                TaskManager manager = new TaskManager();
+                manager.Account.Remove(manager.Account.Find(App.CurrentUserId));
+                manager.SaveChanges();
+            }
+        }
+
+        #endregion
     }
 }

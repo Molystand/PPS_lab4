@@ -25,7 +25,7 @@ namespace PPS_lab4
         public MainWindow()
         {
             InitializeComponent();
-
+            App.CurrentUserId = 0;
         }
 
         #region Клики
@@ -35,10 +35,11 @@ namespace PPS_lab4
             TaskManager manager = new TaskManager();
 
             // Поиск аккаунта пользователя в базе
-            Account currUser = (manager.Account.Where(acc => acc.Login == loginTbox.Text)).FirstOrDefault();
-            // Проверка пароля и регистрация
-            if (currUser != null && currUser.Pass == passTbox.Text)
+            Account currentUser = Account.Get(loginTbox.Text);
+            // Проверка пароля и вход
+            if (currentUser != null && currentUser.Pass == passTbox.Text)
             {
+                App.CurrentUserId = currentUser.Id;
                 TasksWindow window = new TasksWindow() { Owner = this };
                 window.ShowDialog();
             }
@@ -51,9 +52,9 @@ namespace PPS_lab4
         private void regBut_Click(object sender, RoutedEventArgs e)
         {
             RegWindow window = new RegWindow() { Owner = this, WindowStartupLocation = WindowStartupLocation.CenterOwner };
-            this.Visibility = Visibility.Hidden;
+            //this.Visibility = Visibility.Hidden;
             window.ShowDialog();
-            this.Visibility = Visibility.Visible;
+            //this.Visibility = Visibility.Visible;
         }
 
         #endregion

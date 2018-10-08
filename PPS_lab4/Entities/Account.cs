@@ -5,6 +5,7 @@ namespace PPS_lab4.Entities
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Linq;
 
     [Table("Account")]
     public partial class Account
@@ -27,5 +28,11 @@ namespace PPS_lab4.Entities
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Task> Task { get; set; }
+
+        public static Account Get(string login)
+        {
+            TaskManager manager = new TaskManager();
+            return (manager.Account.Where(acc => acc.Login == login)).FirstOrDefault();
+        }
     }
 }

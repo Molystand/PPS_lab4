@@ -30,18 +30,29 @@ namespace PPS_lab4.Windows
         private void regBut_Click(object sender, RoutedEventArgs e)
         {
             TaskManager manager = new TaskManager();
+            string login = loginTbox.Text;
+            string pass = passTbox.Text;
 
-            // При успешной валидации логина и пароля новый аккаунт добавляется в базу
-            if (!string.IsNullOrWhiteSpace(loginTbox.Text) && !string.IsNullOrWhiteSpace(passTbox.Text) &&
-                passTbox.Text == passConfirmTbox.Text)
+            // Валидация логина/пароля
+            if (!string.IsNullOrWhiteSpace(login) && !string.IsNullOrWhiteSpace(pass) &&
+                pass == passConfirmTbox.Text)
             {
-                manager.Account.Add(new Account()
+                // Есть ли аккаунт в базе
+                if (Account.Get(login) == null)
                 {
-                    Login = loginTbox.Text,
-                    Pass  = passTbox.Text
-                });
-                manager.SaveChanges();
-                this.Close();
+                    manager.Account.Add(new Account()
+                    {
+                        Login = login,
+                        Pass = pass
+                    });
+                    manager.SaveChanges();
+                    MessageBox.Show($"Пользователь {login} успешно зарегистрирован");
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Пользователь с таким логином уже зарегистрирован");
+                }
             }
             else
             {
